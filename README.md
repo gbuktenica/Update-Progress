@@ -7,10 +7,10 @@
     This function is useful for linear scripts that are frequently updated. After each section of code simply call the function again to move the progress bar along.
 
 .PARAMETER FirstRun
-    When switch present sents up the Write-Progress for first use.
+    When switch present sets up the Write-Progress for first use.
 
 .PARAMETER LastRun
-    When switchd present sents the Write-Progress to complete.
+    When switch present sets the Write-Progress to complete.
 
 .PARAMETER Activity
     String provides the text in the Write-Progress bar.
@@ -28,5 +28,5 @@
                  http://opensource.org/licenses/MIT
 
 .LINK
-    http://blog.buktenica.com               
+    http://blog.buktenica.com/update-progress             
 #> 
