@@ -28,7 +28,7 @@ Function Update-Progress
                  http://opensource.org/licenses/MIT
 
 .LINK
-    http://blog.buktenica.com               
+    http://blog.buktenica.com/update-progress          
 #>  
 {
 Param 
