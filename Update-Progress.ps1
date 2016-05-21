@@ -1,4 +1,5 @@
 Function Update-Progress
+{
 <#  
 .SYNOPSIS  
     Writes the progress of the script to the screen. 
@@ -15,22 +16,19 @@ Function Update-Progress
 .PARAMETER Activity
     String provides the text in the Write-Progress bar.
 
-.INPUTS
-    None.
-
 .OUTPUTS
     Progress Bar. 
 
 .NOTES  
     Author     : Glen Buktenica
-	Change Log : Initial Build  20151006 
+    Change Log : 20151006 Initial Build   
+               : 20160521 Formatting and error trapping  
     License    : The MIT License (MIT)
                  http://opensource.org/licenses/MIT
 
 .LINK
     http://blog.buktenica.com/update-progress          
 #>  
-{
 Param 
 (
     [Switch] $FirstRun,
@@ -40,10 +38,11 @@ Param
     # On first run count the number times function is called.   
     If ($FirstRun)
     {
+        # Return if function not saved to file. 
+        Try {$ContentArray = Get-Content $script:MyInvocation.MyCommand.Path -ErrorAction Stop} Catch {return}
         $Global:ProgressTotal = 0
         $Global:ProgressCount = 0
-        $ContentArray = Get-Content $script:MyInvocation.MyCommand.Path
-
+        
         Foreach ($line in $ContentArray)
         {
             If ($line -like "*Update-Progress*")
@@ -58,11 +57,15 @@ Param
     # On last run set percentage complete to 100 percent.
     ElseIF ($LastRun)
     {
+    	# Return if function not saved to file.
+        If ($ContentArray.Length -eq 0){return}
         Write-Progress -Id 1 -Activity $Global:Activity -Status "100 percent complete" -PercentComplete 100
     }
     # Else move the progress bar along.
     Else
     {
+        # Return if function not saved to file.
+        If ($ContentArray.Length -eq 0){return}
         # Calculate percentage complete rounded to whole number
         $Global:ProgressComplete = [decimal]::round($ProgressCount/$ProgressTotal*100)
         If (($ProgressComplete -gt 100) -or ($ProgressComplete -lt 0))
@@ -73,7 +76,7 @@ Param
         $Global:ProgressCount ++
     }
 }
-#Example code use here:
+#region Example code use
 Clear-Host
 Update-Progress -FirstRun -Activity "Running Script"
 Write-Host
@@ -108,3 +111,4 @@ Write-Host "Short code here"
 Write-Host "----------------------"
 Update-Progress -LastRun
 Start-Sleep -Milliseconds 1500
+#endregion Example code use
