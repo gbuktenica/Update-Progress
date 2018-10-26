@@ -1,32 +1,7 @@
-# Update-Progress
-<#  
-.SYNOPSIS  
-    Writes the progress of the script to the screen. 
+# Update Progress
 
-.DESCRIPTION
-    This function is useful for linear scripts that are frequently updated. After each section of code simply call the function again to move the progress bar along.
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Copyright Glen Buktenica](https://img.shields.io/badge/Copyright-Glen_Buktenica-blue.svg)](http://buktenica.com)
 
-.PARAMETER FirstRun
-    When switch present sets up the Write-Progress for first use.
-
-.PARAMETER LastRun
-    When switch present sets the Write-Progress to complete.
-
-.PARAMETER Activity
-    String provides the text in the Write-Progress bar.
-
-.INPUTS
-    None.
-
-.OUTPUTS
-    Progress Bar. 
-
-.NOTES  
-    Author     : Glen Buktenica
-	Change Log : Initial Build  20151006 
-    License    : The MIT License (MIT)
-                 http://opensource.org/licenses/MIT
-
-.LINK
-    http://blog.buktenica.com/update-progress             
-#> 
+This function is useful for linear scripts that are frequently updated. After each section of code simply call the function again to move the progress bar along.  
+Example usage is included in the script file.

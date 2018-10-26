@@ -1,8 +1,7 @@
-Function Update-Progress
-{
-<#  
-.SYNOPSIS  
-    Writes the progress of the script to the screen. 
+function Update-Progress {
+<#
+.SYNOPSIS
+    Writes the progress of the script to the screen.
 
 .DESCRIPTION
     This function is useful for linear scripts that are frequently updated. After each section of code simply call the function again to move the progress bar along.
@@ -17,36 +16,32 @@ Function Update-Progress
     String provides the text in the Write-Progress bar.
 
 .OUTPUTS
-    Progress Bar. 
+    Progress Bar.
 
-.NOTES  
+.NOTES
     Author     : Glen Buktenica
-    Change Log : 20151006 Initial Build   
-               : 20160521 Formatting and error trapping  
+    Change Log : 20151006 Initial Build
+               : 20160521 Formatting and error trapping
     License    : The MIT License (MIT)
                  http://opensource.org/licenses/MIT
 
 .LINK
-    http://blog.buktenica.com/update-progress          
-#>  
-Param 
-(
+    http://blog.buktenica.com/update-progress
+#>
+Param (
     [Switch] $FirstRun,
     [Switch] $LastRun,
     [String] $Activity
 )
-    # On first run count the number times function is called.   
-    If ($FirstRun)
-    {
-        # Return if function not saved to file. 
+    # On first run count the number times function is called.
+    If ($FirstRun) {
+        # Return if function not saved to file.
         Try {$ContentArray = Get-Content $script:MyInvocation.MyCommand.Path -ErrorAction Stop} Catch {return}
         $Global:ProgressTotal = 0
         $Global:ProgressCount = 0
-        
-        Foreach ($line in $ContentArray)
-        {
-            If ($line -like "*Update-Progress*")
-            {
+
+        Foreach ($line in $ContentArray) {
+            If ($line -like "*Update-Progress*") {
                 $Global:ProgressTotal ++
             }
         }
@@ -55,21 +50,17 @@ Param
         Write-Progress -Id 1 -Activity $Global:Activity -Status "0 percent complete" -PercentComplete 0
     }
     # On last run set percentage complete to 100 percent.
-    ElseIF ($LastRun)
-    {
-    	# Return if function not saved to file.
+    elseif ($LastRun) {
+        # Return if function not saved to file.
         If ($ContentArray.Length -eq 0){return}
         Write-Progress -Id 1 -Activity $Global:Activity -Status "100 percent complete" -PercentComplete 100
     }
-    # Else move the progress bar along.
-    Else
-    {
+    Else {
         # Return if function not saved to file.
         If ($ContentArray.Length -eq 0){return}
         # Calculate percentage complete rounded to whole number
         $Global:ProgressComplete = [decimal]::round($ProgressCount/$ProgressTotal*100)
-        If (($ProgressComplete -gt 100) -or ($ProgressComplete -lt 0))
-        {
+        If (($ProgressComplete -gt 100) -or ($ProgressComplete -lt 0)) {
             $Global:ProgressComplete = 0
         }
         Write-Progress -Id 1 -Activity $Global:Activity -Status "$ProgressComplete percent complete" -PercentComplete $ProgressComplete
